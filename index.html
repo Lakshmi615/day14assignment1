@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlickFinder</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+        body {
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: #000;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background-color: rgba(0, 0, 0, 0.7);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-sizing: border-box;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+        }
+
+        .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #00bcd4;
+        }
+
+        .favorite-button {
+            background-color: #00bcd4;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background-color 0.3s ease;
+        }
+
+        .favorite-button:hover {
+            background-color: #0097a7;
+        }
+
+        .hero-section {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .slideshow-image {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .slideshow-image.active {
+            opacity: 1;
+        }
+
+        .overlay {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.3) 50%, rgba(0, 0, 0, 0.8) 100%);
+            z-index: 1;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 800px;
+            padding: 20px;
+        }
+
+        .hero-content h1 {
+            font-size: 64px;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
+        .discover-button {
+            background-color: #00bcd4;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 20px;
+            font-weight: 600;
+            transition: background-color 0.3s ease;
+        }
+
+        .discover-button:hover {
+            background-color: #0097a7;
+        }
+
+        .slideshow-nav-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            color: #fff;
+            border: none;
+            padding: 15px 10px;
+            cursor: pointer;
+            font-size: 24px;
+            border-radius: 5px;
+            z-index: 3;
+            transition: background-color 0.3s ease;
+        }
+
+        .slideshow-nav-button:hover {
+            background: rgba(0, 0, 0, 0.8);
+        }
+
+        .prev-button {
+            left: 20px;
+        }
+
+        .next-button {
+            right: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-direction: column;
+                padding: 15px 20px;
+            }
+
+            .nav-links {
+                margin-top: 15px;
+                gap: 15px;
+            }
+
+            .hero-content h1 {
+                font-size: 48px;
+            }
+
+            .hero-content p {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 24px;
+            }
+
+            .nav-links a {
+                font-size: 16px;
+            }
+
+            .favorite-button {
+                padding: 8px 15px;
+                font-size: 14px;
+            }
+
+            .hero-content h1 {
+                font-size: 36px;
+            }
+
+            .hero-content p {
+                font-size: 16px;
+            }
+
+            .discover-button {
+                padding: 12px 25px;
+                font-size: 18px;
+            }
+
+            .slideshow-nav-button {
+                padding: 10px 5px;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="header">
+        <a href="#" class="logo">FlickFinder</a>
+        <nav class="nav-links">
+            <a href="#">Home</a>
+            <a href="#">TV Show</a>
+            <a href="#">Movie</a>
+            <a href="#">Upcoming</a>
+        </nav>
+        <button class="favorite-button">
+            Favorite <span style="margin-left: 5px;">❤️</span>
+        </button>
+    </header>
+
+    <section class="hero-section">
+        <div class="overlay"></div>
+        <div class="hero-content">
+            <h1>Bringing the Big Screen to Your Screen</h1>
+            <p>Discover, critique, and celebrate movies with honest reviews and fresh takes on every film</p>
+            <button class="discover-button">Discover More...</button>
+        </div>
+        <button class="slideshow-nav-button prev-button" id="prevSlide">&#10094;</button>
+        <button class="slideshow-nav-button next-button" id="nextSlide">&#10095;</button>
+    </section>
+
+    <script>
+        const images = [
+            'https://tse4.mm.bing.net/th?id=OIP.hUdwfTrPdTCeD95AoLhNNQHaE8&pid=Api&P=0&h=180',
+            'https://tse3.mm.bing.net/th?id=OIP.ymfP0uWPyr2negU_TFv0NQHaEJ&pid=Api&P=0&h=180',
+            'https://tse4.mm.bing.net/th?id=OIP.02CjU6EyUp5fmMR7tZbUaQHaEK&pid=Api&P=0&h=180'
+        ];
+
+        let currentImageIndex = 0;
+        const heroSection = document.querySelector('.hero-section');
+        let slideshowImages = [];
+
+        function createSlideshowImages() {
+            images.forEach((src, index) => {
+                const img = document.createElement('img');
+                img.src = src;
+                img.alt = `Slideshow image ${index + 1}`;
+                img.classList.add('slideshow-image');
+                heroSection.prepend(img);
+                slideshowImages.push(img);
+            });
+            if (slideshowImages.length > 0) {
+                slideshowImages[0].classList.add('active');
+            }
+        }
+
+        function showSlide(index) {
+            slideshowImages.forEach(img => img.classList.remove('active'));
+            slideshowImages[index].classList.add('active');
+        }
+
+        function nextSlide() {
+            currentImageIndex = (currentImageIndex + 1) % images.length;
+            showSlide(currentImageIndex);
+        }
+
+        function prevSlide() {
+            currentImageIndex = (currentImageIndex - 1 + images.length) % images.length;
+            showSlide(currentImageIndex);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createSlideshowImages();
+            setInterval(nextSlide, 5000);
+            document.getElementById('prevSlide').addEventListener('click', prevSlide);
+            document.getElementById('nextSlide').addEventListener('click', nextSlide);
+        });
+
+        document.querySelector('.favorite-button').addEventListener('click', () => {
+            alert('Favorite button clicked!');
+        });
+
+        document.querySelector('.discover-button').addEventListener('click', () => {
+            alert('Discover More button clicked!');
+        });
+    </script>
+</body>
+</html>
